@@ -1,0 +1,40 @@
+#include <Adafruit_NeoPixel.h> // Include library for controlling NeoPixel LEDs
+
+#define LED_PIN 6 // Pin where the LED strip is connected
+#define LED_COUNT 30 // Number of LEDs in the strip
+
+Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
+
+Adafruit_NeoPixel strip1(40, LED_PIN, NEO_GRB + NEO_KHZ800); // First LED strip
+Adafruit_NeoPixel strip2(40, LED_PIN + 1, NEO_GRB + NEO_KHZ800); // Second LED strip on a different pin
+
+void setup() {
+    strip1.begin(); // Initialize the first LED strip
+    strip2.begin(); // Initialize the second LED strip
+    strip1.show();  // Initialize all pixels of the first strip to 'off'
+    strip2.show();  // Initialize all pixels of the second strip to 'off'
+}
+
+void loop() {
+    // Example function to light up LEDs in a pattern
+    lightUpPattern();
+    delay(1000); // Wait for a second
+}
+
+void lightUpPattern() {
+    // Control the first strip
+    for(int i=0; i<strip1.numPixels(); i++) {
+        strip1.setPixelColor(i, strip1.Color(255, 0, 0)); // Set to red for strip1
+        strip1.show();
+        delay(50); // Wait for a moment
+        strip1.setPixelColor(i, strip1.Color(0, 0, 0)); // Turn off for strip1
+    }
+    
+    // Control the second strip
+    for(int i=0; i<strip2.numPixels(); i++) {
+        strip2.setPixelColor(i, strip2.Color(0, 0, 255)); // Set to blue for strip2
+        strip2.show();
+        delay(50); // Wait for a moment
+        strip2.setPixelColor(i, strip2.Color(0, 0, 0)); // Turn off for strip2
+    }
+}

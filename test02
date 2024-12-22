@@ -1,0 +1,49 @@
+#include <Metro.h> // Include the Metro library for timing
+#include <Audio.h> // Include the Audio library for audio control
+
+// Define pins for buttons
+#define PLAY_BUTTON_PIN 2
+#define PAUSE_BUTTON_PIN 3
+#define STOP_BUTTON_PIN 4
+
+// Create instances for audio control
+AudioPlaySerialflash playAudio; // For playing audio from serial flash
+AudioOutputI2S output; // Output to I2S
+AudioConnection patchCord1(playAudio, output);
+
+// Create a Metro object for timing
+Metro metro;
+
+void setup() {
+    // Initialize serial communication
+    Serial.begin(9600);
+    
+    // Set button pins as input
+    pinMode(PLAY_BUTTON_PIN, INPUT_PULLUP);
+    pinMode(PAUSE_BUTTON_PIN, INPUT_PULLUP);
+    pinMode(STOP_BUTTON_PIN, INPUT_PULLUP);
+    
+    // Initialize audio system
+    AudioMemory(8); // Allocate memory for audio
+}
+
+void loop() {
+    // Check button states
+    if (digitalRead(PLAY_BUTTON_PIN) == LOW) {
+        playAudio.play("audiofile.wav"); // Play audio file
+    }
+    if (digitalRead(PAUSE_BUTTON_PIN) == LOW) {
+        playAudio.pause(); // Pause audio playback
+    }
+    if (digitalRead(STOP_BUTTON_PIN) == LOW) {
+        playAudio.stop(); // Stop audio playback
+    }
+    
+    // Handle audio processing
+    audioUpdate();
+}
+
+void audioUpdate() {
+    // Update audio processing
+    // This function can be expanded to include more audio control features
+} 
